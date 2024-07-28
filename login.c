@@ -5,7 +5,7 @@
 #define IDENTIFIER_MAX_LENGTH 100
 #define PASSWORD_MAX_LENGTH 100
 
-int contains_credential(char *credentials[], char *identifier) {
+int contains_credential(char **credentials, char *identifier) {
     int i = 0;
     while (credentials[i]){
         if (strcmp(credentials[i], identifier) == 0) {

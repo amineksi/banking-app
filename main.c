@@ -21,9 +21,11 @@ int main()
         "password7",
         "examplePass"
     };
-
+    while (1)
+    {
         if (welcome())
             connect(credentials, passwords);
-        /*else
-            register();*/
+        else
+            registr(credentials, passwords);
+    }
 }
