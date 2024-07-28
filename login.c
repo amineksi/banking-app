@@ -5,64 +5,42 @@
 #define IDENTIFIER_MAX_LENGTH 100
 #define PASSWORD_MAX_LENGTH 100
 
-int contains_credential(char *credentials[], char *identifier, int size) {
-    for (int i = 0; i < size; ++i) {
+int contains_credential(char *credentials[], char *identifier) {
+    int i = 0;
+    while (credentials[i]){
         if (strcmp(credentials[i], identifier) == 0) {
             return i; 
         }
+        i+=1;
     }
     return -1;
 }
 
-int connect() {
+int connect(char **credentials, char **passwords) {
     char identifier[IDENTIFIER_MAX_LENGTH];
 	char password[PASSWORD_MAX_LENGTH];
-    char *credentials[8] = {
-        "lFzXVo",
-        "eMpKqTjUr",
-        "rAeiPdX",
-        "BjxQTuDfLm",
-        "HqNpsZr",
-        "TvNxPwGuHk",
-        "XvKpLeF"
-    };
-	char *passwords[8] = {
-        "password1",
-        "password2",
-        "password3",
-        "password4",
-        "password5",
-        "password6",
-        "password7",
-        "examplePass"
-    };
 
-	int credentials_size = sizeof(credentials) / sizeof(credentials[0]);
-
-    printf("Hello, please enter your credentials.\nIdentifier: ");
+    printf("Please enter your credentials.\nIdentifier: ");
     if (fgets(identifier, IDENTIFIER_MAX_LENGTH, stdin) != NULL) {
-        // Remove trailing newline character
         size_t len = strlen(identifier);
         if (len > 0 && identifier[len - 1] == '\n') {
             identifier[len - 1] = '\0';
         }
     }
-	int index = contains_credential(credentials, identifier, credentials_size);
+	int index = contains_credential(credentials, identifier);
     while (index == -1) {
         printf("This identifier doesn't exist, please try again.\nIdentifier: ");
         if (fgets(identifier, IDENTIFIER_MAX_LENGTH, stdin) != NULL) {
-            // Remove trailing newline character
             size_t len = strlen(identifier);
             if (len > 0 && identifier[len - 1] == '\n') {
                 identifier[len - 1] = '\0';
             }
         }
-		index = contains_credential(credentials, identifier, credentials_size);
+		index = contains_credential(credentials, identifier);
     }
 
 	printf("Password: ");
 	if (fgets(password, IDENTIFIER_MAX_LENGTH, stdin) != NULL) {
-    	// Remove trailing newline character
         size_t len = strlen(password);
         if (len > 0 && password[len - 1] == '\n') {
             password[len - 1] = '\0';
@@ -72,7 +50,6 @@ int connect() {
     while (strcmp(passwords[index], password) != 0) {
         printf("Wrong password, please try again.\nPassword : ");
         if (fgets(password, PASSWORD_MAX_LENGTH, stdin) != NULL) {
-            // Remove trailing newline character
             size_t len = strlen(password);
             if (len > 0 && password[len - 1] == '\n') {
                 password[len - 1] = '\0';
