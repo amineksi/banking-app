@@ -3,57 +3,58 @@
 #include <string.h>
 #include "utils.h"
 
-#define IDENTIFIER_MAX_LENGTH 10
-#define PASSWORD_MAX_LENGTH 50
-
 void generateIdentifier(char *str, int length)
 {
 	char charset[] = "0123456789";
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < 10; i++) {
         int key = rand() % (sizeof(charset) - 1);
         str[i] = charset[key];
     }
-    str[length] = '\0';
+    str[10] = '\0';
+	printf("%s", str);
 }
 
-int generatePassword(char *password, int length)
-{
-	char *confirmPassword;
+int generatePassword(char *password, int length) {
+    char confirmPassword[MAX_PASSWORD_LENGTH + 1];
 
-	printf("Enter your password : ");
-	if (fgets(password, PASSWORD_MAX_LENGTH, stdin) != NULL) {
+    printf("Enter your password: ");
+    if (fgets(password, MAX_PASSWORD_LENGTH + 1, stdin) != NULL) {
         int len = strlen(password);
         if (len > 0 && password[len - 1] == '\n') {
             password[len - 1] = '\0';
         }
     }
 
-	printf("Confirm your password : ");
-	if (fgets(confirmPassword, PASSWORD_MAX_LENGTH, stdin) != NULL) {
-        size_t len = strlen(confirmPassword);
+    printf("Confirm your password: ");
+    if (fgets(confirmPassword, MAX_PASSWORD_LENGTH + 1, stdin) != NULL) {
+        int len = strlen(confirmPassword);
         if (len > 0 && confirmPassword[len - 1] == '\n') {
             confirmPassword[len - 1] = '\0';
         }
     }
-	if (strncmp(password, confirmPassword, PASSWORD_MAX_LENGTH) == 0)
-		return 1;
-	return 0;
+
+    if (strcmp(password, confirmPassword) == 0)
+        return 1;
+
+    return 0;
 }
 
 void create_new_acc()
 {
-	char identifier[IDENTIFIER_MAX_LENGTH + 1];
-	char password[PASSWORD_MAX_LENGTH + 1];
+	char identifier[11];
+	char password[MAX_PASSWORD_LENGTH + 1];
 	
-	generateIdentifier(identifier, 10);
+	generateIdentifier(identifier, MAX_ID_LENGTH);
 	
 	while (!verify_id(identifier))
-		generateIdentifier(identifier, 11);
+		generateIdentifier(identifier, MAX_ID_LENGTH);
 	
 	printf("%s%s\n", "Your identifier is : ",identifier);
-	while (!generatePassword(password, PASSWORD_MAX_LENGTH + 1))
+
+	while (!generatePassword(password, MAX_PASSWORD_LENGTH))
 		printf("Passwords don't match.\n");
+
 	add_account(identifier, password);
 
 }

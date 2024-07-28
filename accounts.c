@@ -3,7 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define DATABASE_FILE "accounts.db"
+
+#define DATABASE_FILE "accounts.txt"
 
 int verify_id(char *id)
 {
@@ -30,17 +31,24 @@ int verify_id(char *id)
 void add_account(char *id, char *password)
 {
 	Account account;
-	strncpy(account.id, id, MAX_ID_LENGTH);
-	strncpy(account.password, password, MAX_PASSWORD_LENGTH);
 
-	FILE *file = fopen(DATABASE_FILE, "ab");
+	// Copy the id and password, ensuring null-termination
+	strncpy(account.id, id, MAX_ID_LENGTH - 1);
+	account.id[MAX_ID_LENGTH - 1] = '\0';
+	strncpy(account.password, password, MAX_PASSWORD_LENGTH - 1);
+	account.password[MAX_PASSWORD_LENGTH - 1] = '\0';
+	account.balance = 0;
+
+	FILE *file = fopen(DATABASE_FILE, "a");
 	if (!file)
 	{
-		write(2, "Error opening file\n", 19);
+		perror("Error opening file");
 		return;
 	}
 
-	fwrite(&account, sizeof(Account), 1, file);
+	// Write the account data as a single line: "id password\n"
+	fprintf(file, "%s %s %d\n", account.id, account.password, account.balance);
+
 	fclose(file);
 	printf("Account added successfully.\n");
 }
