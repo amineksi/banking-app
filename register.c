@@ -61,14 +61,14 @@ void create_new_acc()
 void registr()
 {
 	char choice[3];
-	printf("Are you sure you want to create a new account? (Enter 1 if yes, else 0.)\n");
+	printf("Are you sure you want to create a new account? (y/n)\n");
 	fgets(choice, sizeof(choice), stdin);
-	while (choice[0] != '0' && choice[0] != '1')
+	while (choice[0] != 'y' && choice[0] != 'n')
 	{
-		printf("Wrong value. 0 to leave, 1 to register.");
+		printf("Wrong value. n to leave, y to register.");
 		fgets(choice, sizeof(choice), stdin);
 	}
 
-	if (choice[0] == '1')
+	if (choice[0] == 'y')
 		create_new_acc();
 }
