@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define IDENTIFIER_MAX_LENGTH 100
+#define IDENTIFIER_MAX_LENGTH 10
 
-int	generateIdentifier(char **credentials, char *str, size_t length)
+/*int	generateIdentifier(char **credentials, char *str, size_t length)
 {
 	char	charset[] = "0123456789";
 
@@ -39,4 +39,4 @@ void	registr(char **credentials, char **passwords)
 
 	if (choice[0] == '1')
 		create_new_acc(credentials, passwords);
-}
+}*/
