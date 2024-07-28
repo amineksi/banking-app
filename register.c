@@ -6,25 +6,24 @@
 #define IDENTIFIER_MAX_LENGTH 10
 #define PASSWORD_MAX_LENGTH 50
 
-int generateIdentifier(char *str, size_t length)
+void generateIdentifier(char *str, int length)
 {
 	char charset[] = "0123456789";
 
-	for (size_t i = 0; i < 10; i++)
-	{
-		int key = rand() % sizeof(charset);
-		str[i] = charset[key];
-	}
-	str[length] = '\0';
+    for (int i = 0; i < length; i++) {
+        int key = rand() % (sizeof(charset) - 1);
+        str[i] = charset[key];
+    }
+    str[length] = '\0';
 }
 
-int generatePassword(char *password, size_t length)
+int generatePassword(char *password, int length)
 {
 	char *confirmPassword;
 
 	printf("Enter your password : ");
 	if (fgets(password, PASSWORD_MAX_LENGTH, stdin) != NULL) {
-        size_t len = strlen(password);
+        int len = strlen(password);
         if (len > 0 && password[len - 1] == '\n') {
             password[len - 1] = '\0';
         }
@@ -46,10 +45,9 @@ void create_new_acc()
 {
 	char identifier[IDENTIFIER_MAX_LENGTH + 1];
 	char password[PASSWORD_MAX_LENGTH + 1];
-	generateIdentifier(identifier, 11);
 	
-	printf("%s\n", identifier);
-
+	generateIdentifier(identifier, 10);
+	
 	while (!verify_id(identifier))
 		generateIdentifier(identifier, 11);
 	

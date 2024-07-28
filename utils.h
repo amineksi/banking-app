@@ -8,7 +8,7 @@
 void enter_identifiers(char *identifier, char *password);
 int connect();
 
-int	generateIdentifier(char *str, size_t length);
+void	generateIdentifier(char *str, int length);
 void	create_new_acc();
 void	registr();
 
