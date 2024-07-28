@@ -12,7 +12,6 @@ void generateIdentifier(char *str, int length)
         str[i] = charset[key];
     }
     str[10] = '\0';
-	printf("%s", str);
 }
 
 int generatePassword(char *password, int length) {

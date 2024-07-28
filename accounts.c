@@ -3,27 +3,38 @@
 #include <string.h>
 #include <unistd.h>
 
-
+#define MAX_LINE_LENGTH 150 // Assuming each line will not exceed 150 characters
+#define CHARS_TO_READ 10
 #define DATABASE_FILE "accounts.txt"
 
 int verify_id(char *id)
 {
-	Account account;
-
-	FILE *file = fopen(DATABASE_FILE, "ab");
+	FILE *file = fopen(DATABASE_FILE, "r");
 	if (!file)
 	{
-		write(2, "Error opening file\n", 19);
+		perror("Error opening file");
 		return 0;
 	}
-	while (fread(&account, sizeof(Account), 1, file))
+
+	char line[MAX_LINE_LENGTH];
+	while (fgets(line, sizeof(line), file))
 	{
-		if (strncmp(account.id, id, MAX_ID_LENGTH) == 0)
+		// Remove newline character if present
+		size_t len = strlen(line);
+		if (len > 0 && line[len - 1] == '\n')
 		{
-			fclose(file);
-			return 0;
+			line[len - 1] = '\0';
 		}
+
+		char first_10_chars[CHARS_TO_READ + 1];
+		strncpy(first_10_chars, line, CHARS_TO_READ);
+		first_10_chars[CHARS_TO_READ] = '\0'; // Ensure null-termination
+
+		// Compare the input with the first 10 characters of the line
+		if (strncmp(id, first_10_chars, CHARS_TO_READ) == 0)
+			return 0;
 	}
+
 	fclose(file);
 	return 1;
 }
