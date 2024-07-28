@@ -11,4 +11,6 @@ typedef struct {
 
 void add_account(char *id, char *password);
 int verify_account(char *id, char *password);
+int	verify_id(char *id);
+
 #endif

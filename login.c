@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils.h"
 
 #define IDENTIFIER_MAX_LENGTH 10
 #define PASSWORD_MAX_LENGTH 50
@@ -29,7 +30,6 @@ int connect() {
     enter_indentifiers(identifier, password);
     while (!verify_account(identifier, password))
         enter_indentifiers(identifier, password);
-
 	printf("Successfully connected.");
     return 0;
 }

@@ -5,6 +5,28 @@
 
 #define DATABASE_FILE "accounts.db"
 
+int verify_id(char *id)
+{
+	Account account;
+
+	FILE *file = fopen(DATABASE_FILE, "ab");
+	if (!file)
+	{
+		write(2, "Error opening file\n", 19);
+		return 0;
+	}
+	while (fread(&account, sizeof(Account), 1, file))
+	{
+		if (strncmp(account.id, id, MAX_ID_LENGTH) == 0)
+		{
+			fclose(file);
+			return 0;
+		}
+	}
+	fclose(file);
+	return 1;
+}
+
 void add_account(char *id, char *password)
 {
 	Account account;

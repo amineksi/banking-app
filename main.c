@@ -6,7 +6,7 @@ int main()
     {
         if (welcome())
             connect();
-        /*else
-            registr();*/
+        else
+            registr();
     }
 }
