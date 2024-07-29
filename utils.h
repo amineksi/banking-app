@@ -16,6 +16,6 @@ int welcome();
 void add_account(char *id, char *password);
 int verify_account(char *id, char *password);
 
-void operations();
+int operations();
 
 #endif // UTILS_H

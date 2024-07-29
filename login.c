@@ -23,9 +23,7 @@ int enter_indentifiers(char *identifier, char *password)
         {
             size_t len = strlen(choice);
             if (len > 0 && choice[len - 1] == '\n')
-            {
                 choice[len - 1] = '\0';
-            }
             else
                 flush_input_buffer(); // Clear remaining input buffer
         }
@@ -37,9 +35,7 @@ int enter_indentifiers(char *identifier, char *password)
     {
         size_t len = strlen(identifier);
         if (len > 0 && identifier[len - 1] == '\n')
-        {
             identifier[len - 1] = '\0';
-        }
         else
             flush_input_buffer(); // Clear remaining input buffer
     }
@@ -48,9 +44,7 @@ int enter_indentifiers(char *identifier, char *password)
     {
         size_t len = strlen(password);
         if (len > 0 && password[len - 1] == '\n')
-        {
             password[len - 1] = '\0';
-        }
         else
             flush_input_buffer(); // Clear remaining input buffer
     }
@@ -62,8 +56,12 @@ int connect()
     char password[PASSWORD_MAX_LENGTH + 1];
     
     int choice = enter_indentifiers(identifier, password);
-    while (choice && !verify_account(identifier, password))
+    int check = verify_account(identifier, password);
+    while (choice && !check)
+    {
         choice = enter_indentifiers(identifier, password);
-
-    return choice;
+        check = verify_account(identifier, password);
+    }
+    printf("%d",check);
+    return check;
 }

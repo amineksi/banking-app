@@ -10,7 +10,7 @@ void flush_input_buffr()
         ;
 }
 
-void    operations()
+int    operations()
 {
     char choice[2];
     while (choice[0] != 'l'  && choice[0] != 'o' && choice[0] != 'b')
@@ -30,6 +30,10 @@ void    operations()
     if (choice[0] == 'l')
     {
         printf("Successfully logged out.\n");
-        return ;
+        return 1;
     }
+    /*if (choice[0] == 'o')
+        transactions();
+    if (choice[0] == 'b')
+        view_balance();*/
 }

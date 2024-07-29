@@ -7,8 +7,9 @@ int main()
     {
         if (welcome())
         {
-            if (connect())
-                operations();
+            int value = connect();
+            if (value)
+                operations(value);
         }
         else
             registr();
