@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #define MAX_LINE_LENGTH 150 // Assuming each line will not exceed 150 characters
 #define CHARS_TO_READ 10
@@ -37,6 +38,69 @@ int verify_id(char *id)
 
 	fclose(file);
 	return 1;
+}
+char *get_line(int index)
+{
+	FILE *file = fopen(DATABASE_FILE, "r");
+	if (!file)
+	{
+		perror("Error opening file");
+		return NULL;
+	}
+
+	char line[MAX_LINE_LENGTH];
+	int count = 1;
+	char *result = NULL;
+
+	while (fgets(line, sizeof(line), file))
+	{
+		// Remove newline character if present
+		size_t len = strlen(line);
+		if (len > 0 && line[len - 1] == '\n')
+			line[len - 1] = '\0';
+
+		if (count == index)
+		{
+			result = malloc(len);
+			if (result)
+				strcpy(result, line);
+			break;
+		}
+		count++;
+	}
+	fclose(file);
+	return result;
+}
+
+char *get_balance(char *line)
+{
+    char *copy = strdup(line); // Make a copy of the line to avoid modifying the original string
+    if (!copy)
+    {
+        perror("Error duplicating line");
+        return NULL;
+    }
+
+    char *token = strtok(copy, " ");
+    int token_count = 1;
+    char *result = NULL;
+
+    while (token != NULL)
+    {
+        if (token_count == 3)
+        {
+            result = malloc(strlen(token) + 1);  // Allocate memory for the third string
+            if (result)
+                strcpy(result, token);  // Copy the third string to the allocated memory
+            break;
+        }
+        token = strtok(NULL, " ");
+        token_count++;
+    }
+
+    free(copy); // Free the duplicated line
+
+    return result;
 }
 
 void add_account(char *id, char *password)

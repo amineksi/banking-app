@@ -62,6 +62,5 @@ int connect()
         choice = enter_indentifiers(identifier, password);
         check = verify_account(identifier, password);
     }
-    printf("%d",check);
     return check;
 }
