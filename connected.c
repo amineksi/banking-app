@@ -104,8 +104,6 @@ void give_money(int line_idx)
     {
         if (fgets(choice, 11, stdin) != NULL)
         {
-            printf("ew");
-
             size_t len = strlen(choice);
             if (len > 0 && choice[len - 1] == '\n')
             {
@@ -124,6 +122,8 @@ void give_money(int line_idx)
             }
             j++;
         }
+        if (!receiver_balance)
+            printf("Wrong input, please try again.\n");
     }
     
     owner_balance = get_balance(get_line(line_idx));
@@ -150,6 +150,7 @@ void give_money(int line_idx)
                     printf("Invalid input. Please enter a numeric value.\n");
                     amount == NULL;
                     over = 0;
+                    break ;
                 }
                 else
                     over = 1;
@@ -161,18 +162,13 @@ void give_money(int line_idx)
                 over = 0;
             }
         }
-        else
-        {
-            printf("Failed to read input.\n");
-            return;
-        }
     }
     
     change_balance(get_line(line_idx), line_idx, owner_balance, amount, -1);
     
     change_balance(get_line(j+1), j+1, receiver_balance, amount, 1);
 
-    printf("Transaction succesfully done !");
+    printf("Transaction succesfully done !\n");
 }
 
 void transactions(int line_idx)
