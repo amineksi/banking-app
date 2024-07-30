@@ -8,6 +8,49 @@
 #define CHARS_TO_READ 10
 #define DATABASE_FILE "accounts.txt"
 
+void overwrite_line(int line_index, char *new_content) 
+{
+    FILE *file = fopen(DATABASE_FILE, "r");
+    if (!file) {
+        perror("Failed to open file");
+        return;
+    }
+    line_index--;
+    // Read the entire file into memory
+    char **lines = NULL;
+    size_t count = 0;
+    char buffer[100];
+    while (fgets(buffer, 100, file)) {
+        lines = realloc(lines, sizeof(char*) * (count + 1));
+        lines[count] = strdup(buffer);
+        count++;
+    }
+    fclose(file);
+
+    // Overwrite the specific line
+    if (line_index >= 0 && line_index < count) {
+        free(lines[line_index]);
+        lines[line_index] = malloc(strlen(new_content) + 2); // +1 for '\n' and +1 for '\0'
+        strcpy(lines[line_index], new_content);
+        strcat(lines[line_index], "\n");
+    } else {
+        printf("Line index out of range\n");
+    }
+
+    // Write the content back to the file
+    file = fopen(DATABASE_FILE, "w");
+    if (!file) {
+        perror("Failed to open file");
+        return;
+    }
+    for (size_t i = 0; i < count; i++) {
+        fputs(lines[i], file);
+        free(lines[i]);
+    }
+    free(lines);
+    fclose(file);
+}
+
 int verify_id(char *id)
 {
 	FILE *file = fopen(DATABASE_FILE, "r");
@@ -39,6 +82,7 @@ int verify_id(char *id)
 	fclose(file);
 	return 1;
 }
+
 char *get_line(int index)
 {
 	FILE *file = fopen(DATABASE_FILE, "r");

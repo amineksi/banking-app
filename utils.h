@@ -13,6 +13,7 @@ void	create_new_acc();
 void	registr();
 char *get_line(int index);
 char *get_balance(char *line);
+void overwrite_line(int line_index, char *new_content);
 
 
 int welcome();
